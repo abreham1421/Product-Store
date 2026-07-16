@@ -1,7 +1,10 @@
-import { Box, Button, Container, Text, Input, useColorModeValue, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Image, Text, Input, useColorModeValue, useToast, VStack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProductStore } from "../store/product";
+
+const MotionBox = motion(Box);
 
 const CreatePage = () => {
 	const [newProduct, setNewProduct] = useState({
@@ -9,6 +12,7 @@ const CreatePage = () => {
 		price: "",
 		image: "",
 	});
+	const [imageValid, setImageValid] = useState(true);
 	const toast = useToast();
 	const navigate = useNavigate();
 
@@ -39,7 +43,15 @@ const CreatePage = () => {
 
 	return (
 		<Container maxW={"container.sm"} py={{ base: 10, md: 14 }}>
-			<VStack align='flex-start' spacing={1} mb={8}>
+			<VStack
+				align='flex-start'
+				spacing={1}
+				mb={8}
+				as={motion.div}
+				initial={{ opacity: 0, y: 10 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.4, ease: "easeOut" }}
+			>
 				<Text
 					fontFamily='mono'
 					fontSize='xs'
@@ -58,7 +70,15 @@ const CreatePage = () => {
 				</Text>
 			</VStack>
 
-			<Box w={"full"} border='1px solid' borderColor={border} p={6}>
+			<MotionBox
+				w={"full"}
+				border='1px solid'
+				borderColor={border}
+				p={6}
+				initial={{ opacity: 0, y: 14 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.4, delay: 0.08, ease: "easeOut" }}
+			>
 				<VStack spacing={4} align='stretch'>
 					<Box>
 						<Text fontSize='xs' fontFamily='mono' color={muted} mb={1.5} letterSpacing='0.05em'>
@@ -100,8 +120,31 @@ const CreatePage = () => {
 							borderRadius={0}
 							borderColor={border}
 							value={newProduct.image}
-							onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+							onChange={(e) => {
+								setNewProduct({ ...newProduct, image: e.target.value });
+								setImageValid(true);
+							}}
 						/>
+						{newProduct.image && (
+							<Box mt={3} border='1px solid' borderColor={border} h='160px' overflow='hidden' bg='blackAlpha.50'>
+								{imageValid ? (
+									<Image
+										src={newProduct.image}
+										alt='Preview'
+										w='full'
+										h='full'
+										objectFit='cover'
+										onError={() => setImageValid(false)}
+									/>
+								) : (
+									<VStack h='full' justify='center' spacing={0.5}>
+										<Text fontSize='xs' color={muted} fontFamily='mono'>
+											COULDN'T LOAD IMAGE
+										</Text>
+									</VStack>
+								)}
+							</Box>
+						)}
 					</Box>
 
 					<Button
@@ -118,7 +161,7 @@ const CreatePage = () => {
 						Save to catalog
 					</Button>
 				</VStack>
-			</Box>
+			</MotionBox>
 		</Container>
 	);
 };

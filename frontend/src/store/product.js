@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export const useProductStore = create((set) => ({
 	products: [],
+	isLoading: true,
 	setProducts: (products) => set({ products }),
 	createProduct: async (newProduct) => {
 		if (!newProduct.name || !newProduct.image || !newProduct.price) {
@@ -19,9 +20,10 @@ export const useProductStore = create((set) => ({
 		return { success: true, message: "Product created successfully" };
 	},
 	fetchProducts: async () => {
+		set({ isLoading: true });
 		const res = await fetch("/api/products");
 		const data = await res.json();
-		set({ products: data.data });
+		set({ products: data.data, isLoading: false });
 	},
 	deleteProduct: async (pid) => {
 		const res = await fetch(`/api/products/${pid}`, {

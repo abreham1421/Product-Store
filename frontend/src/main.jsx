@@ -51,6 +51,17 @@ const theme = extendTheme({
 				bg: props.colorMode === "light" ? "paper.100" : "ink.900",
 				color: props.colorMode === "light" ? "ink.900" : "paper.100",
 			},
+			"*:focus-visible": {
+				outline: "2px solid var(--chakra-colors-signal-500)",
+				outlineOffset: "1px",
+			},
+			"@media (prefers-reduced-motion: reduce)": {
+				"*": {
+					animationDuration: "0.01ms !important",
+					animationIterationCount: "1 !important",
+					transitionDuration: "0.01ms !important",
+				},
+			},
 		}),
 	},
 });

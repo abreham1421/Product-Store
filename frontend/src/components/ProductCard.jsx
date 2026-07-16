@@ -21,13 +21,21 @@ import {
     useToast,
     VStack,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { useProductStore } from "../store/product";
 import { useEffect, useState } from "react";
+
+const MotionBox = motion(Box);
 
 const defaultProductState = {
     name: "",
     price: "",
     image: "",
+};
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
 };
 
 const ProductCard = ({ product, index = 0 }) => {
@@ -40,6 +48,10 @@ const ProductCard = ({ product, index = 0 }) => {
     const border = useColorModeValue("ink.100", "whiteAlpha.200");
     const bg = useColorModeValue("paper.50", "ink.900");
     const muted = useColorModeValue("ink.500", "ink.300");
+    const hoverShadow = useColorModeValue(
+        "0 20px 32px -20px rgba(16,20,35,0.28)",
+        "0 20px 32px -20px rgba(0,0,0,0.6)"
+    );
 
     const { deleteProduct, updateProduct } = useProductStore();
     const toast = useToast();
@@ -95,16 +107,27 @@ const ProductCard = ({ product, index = 0 }) => {
     }
 
     return (
-        <Box
+        <MotionBox
+            layout
+            variants={cardVariants}
+            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+            whileHover={{ y: -4, boxShadow: hoverShadow }}
             border="1px solid"
             borderColor={border}
             bg={bg}
-            transition="all 0.15s ease"
-            _hover={{ borderColor: "signal.500", transform: "translateY(-2px)" }}
             position="relative"
+            style={{ transition: "border-color 0.2s ease" }}
         >
-            <Box position="relative">
-                <Image src={product.image ?? ""} alt={product.name ?? "Product"} h={48} w="full" objectFit="cover" />
+            <Box position="relative" overflow="hidden" role="group">
+                <Image
+                    src={product.image ?? ""}
+                    alt={product.name ?? "Product"}
+                    h={48}
+                    w="full"
+                    objectFit="cover"
+                    transition="transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+                    _groupHover={{ transform: "scale(1.06)" }}
+                />
                 <Text
                     position="absolute"
                     top={2}
@@ -215,7 +238,7 @@ const ProductCard = ({ product, index = 0 }) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </Box>
+        </MotionBox>
     );
 };
 export default ProductCard;
