@@ -1,6 +1,6 @@
 ﻿<h1 align="center">Product Store 🚀</h1>
 
-![Demo App](/"frontend/public/demo.png")
+![Demo App](/frontend/public/demo.png)
 
 
 
