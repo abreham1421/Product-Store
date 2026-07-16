@@ -1,4 +1,4 @@
-<h1 align="center">MERN Crash Course 🚀</h1>
+<h1 align="center">Product Store 🚀</h1>
 
 ![Demo App](/"frontend\public\demo.png")
 
@@ -12,8 +12,7 @@ About This Course:
 -   🐞 Error Handling
 -   🌐 Deployment
 -   🚀 And Many More Cool Features
--   ✅ This is a lot of work. Support my work by subscribing to the [Channel](https://www.youtube.com/@asaprogrammer_)
-
+-   
 ### Setup .env file
 
 ```shell
