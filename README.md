@@ -1,8 +1,8 @@
 <h1 align="center">MERN Crash Course 🚀</h1>
 
-![Demo App](/frontend/public/screenshot-for-readme.png)
+![Demo App](/"frontend\public\demo.png")
 
-[Video Tutorial on Youtube](https://youtu.be/Dukz-3mS3Us)
+
 
 About This Course:
 
